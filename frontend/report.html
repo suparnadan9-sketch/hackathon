@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Disaster - Bhorosha</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">BHOROSHA</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html">Report</a>
+            <a href="rescue.html">Rescue</a>
+        </nav>
+    </header>
+
+
+    <!-- Report Section -->
+    <section class="report-section">
+
+        <div class="report-container">
+
+            <h1>Report a Disaster</h1>
+
+            <p>
+                Help emergency teams by reporting a disaster in your area.
+            </p>
+
+
+            <form id="report-form">
+
+                <!-- Disaster Type -->
+                <label for="type">Disaster Type</label>
+
+                <select id="type" required>
+                    <option value="">Select disaster type</option>
+                    <option value="Flood">Flood</option>
+                    <option value="Fire">Fire</option>
+                    <option value="Cyclone">Cyclone</option>
+                    <option value="Earthquake">Earthquake</option>
+                    <option value="Landslide">Landslide</option>
+                    <option value="Other">Other</option>
+                </select>
+
+
+                <!-- Description -->
+                <label for="description">Description</label>
+
+                <textarea
+                    id="description"
+                    rows="5"
+                    placeholder="Describe the disaster situation..."
+                    required
+                ></textarea>
+
+
+                <!-- Location -->
+                <label>Location</label>
+
+                <div class="location-row">
+
+                    <input
+                        type="number"
+                        id="latitude"
+                        step="any"
+                        placeholder="Latitude"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        id="longitude"
+                        step="any"
+                        placeholder="Longitude"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="getLocation()"
+                    class="location-button"
+                >
+                    📍 Detect My Location
+                </button>
+
+
+                <!-- Severity -->
+                <label for="severity">Severity</label>
+
+                <select id="severity" required>
+
+                    <option value="">Select severity</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                    <option value="CRITICAL">Critical</option>
+
+                </select>
+
+
+                <!-- Submit -->
+                <button type="submit" class="submit-button">
+                    Submit Disaster Report
+                </button>
+
+            </form>
+
+
+            <!-- Result message -->
+            <div id="result-message"></div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 Bhorosha | Disaster Management & Emergency Response
+        </p>
+
+    </footer>
+
+
+    <script src="report.js"></script>
+
+</body>
+
+</html>
