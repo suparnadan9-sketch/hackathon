@@ -220,3 +220,77 @@ footer {
     }
 
 }
+/* Report Page */
+
+.report-section {
+    min-height: 650px;
+    padding: 60px 7%;
+    background: #eaf2f8;
+}
+
+.report-container {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.report-container h1 {
+    margin-bottom: 10px;
+}
+
+.report-container > p {
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+#report-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#report-form label {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#report-form input,
+#report-form select,
+#report-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd1d1;
+    border-radius: 7px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+}
+
+#report-form textarea {
+    resize: vertical;
+}
+
+.location-row {
+    display: flex;
+    gap: 10px;
+}
+
+.location-button {
+    margin-top: 12px;
+    background: #2a9d8f;
+    color: white;
+}
+
+.submit-button {
+    margin-top: 25px;
+    background: #d62828;
+    color: white;
+}
+
+#result-message {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+}
