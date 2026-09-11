@@ -61,7 +61,7 @@ document.getElementById("report-form").addEventListener("submit", async function
     try {
 
         const response = await fetch(
-            "YOUR_BACKEND_URL/api/reports",
+            "https://hackathon-htn2.onrender.com/api/reports",
             {
                 method: "POST",
 
