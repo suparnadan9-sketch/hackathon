@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
@@ -11,6 +12,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+app.use(cors());
 app.use(express.json());
 
 // Home route
