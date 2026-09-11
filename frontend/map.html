@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bhorosha - Disaster Map</title>
+
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">BHOROSHA</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html">Report</a>
+            <a href="rescue.html">Rescue</a>
+        </nav>
+    </header>
+
+
+    <section class="map-section">
+
+        <div class="map-heading">
+            <h1>Disaster Map</h1>
+
+            <p>
+                View reported disaster locations and their severity.
+            </p>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="map-status">
+            Loading disaster reports...
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 Bhorosha | Disaster Management & Emergency Response
+        </p>
+
+    </footer>
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="map.js"></script>
+
+</body>
+
+</html>
