@@ -1,10 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Bhorosha</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bhorosha - Disaster Management</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Bhorosha - Disaster Management System</h1>
-    <p>Emergency response and disaster coordination platform.</p>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">BHOROSHA</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="report.html">Report</a>
+            <a href="rescue.html">Rescue</a>
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <p class="tagline">DISASTER MANAGEMENT & EMERGENCY RESPONSE</p>
+
+            <h1>
+                Stay Alert.<br>
+                Stay Safe.
+            </h1>
+
+            <p>
+                Bhorosha helps citizens report disasters,
+                receive emergency alerts and connect with
+                rescue teams during critical situations.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="sos-button" onclick="activateSOS()">
+                    🚨 SOS
+                </button>
+
+                <a href="report.html" class="report-button">
+                    Report Disaster
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="status-dot"></div>
+
+            <h3>Current Safety Status</h3>
+
+            <h2 id="risk-status">MONITORING</h2>
+
+            <p>
+                Disaster information is monitored
+                through the Bhorosha system.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+
+        <h2>Emergency Dashboard</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <span>🚨</span>
+                <h3>Emergency SOS</h3>
+                <p>Send your emergency location to the response team.</p>
+                <button onclick="activateSOS()">Activate SOS</button>
+            </div>
+
+
+            <div class="card">
+                <span>⚠️</span>
+                <h3>Report Disaster</h3>
+                <p>Report floods, fires, cyclones and other disasters.</p>
+                <a href="report.html">Report Now</a>
+            </div>
+
+
+            <div class="card">
+                <span>🗺️</span>
+                <h3>Safe Routes</h3>
+                <p>View disaster locations and identify safer areas.</p>
+                <button onclick="showMapMessage()">View Map</button>
+            </div>
+
+
+            <div class="card">
+                <span>📢</span>
+                <h3>Emergency Alerts</h3>
+                <p>Stay updated about nearby disaster warnings.</p>
+                <button onclick="showAlerts()">View Alerts</button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SOS Result -->
+    <div id="sos-message" class="popup hidden">
+
+        <div class="popup-box">
+
+            <h2>🚨 SOS ACTIVATED</h2>
+
+            <p>Your emergency request has been generated.</p>
+
+            <p id="location-status">
+                Getting your location...
+            </p>
+
+            <button onclick="closeSOS()">Close</button>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            © 2026 Bhorosha | Disaster Management & Emergency Response
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>
