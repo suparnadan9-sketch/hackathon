@@ -19,7 +19,7 @@ async function loadReports() {
     try {
 
         const response = await fetch(
-            "YOUR_BACKEND_URL/api/reports"
+            "https://hackathon-htn2.onrender.com/api/reports"
         );
 
         const reports = await response.json();
