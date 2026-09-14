@@ -29,7 +29,7 @@ async function activateSOS() {
             try {
 
                 const response = await fetch(
-                    "YOUR_ACTUAL_RENDER_URL/api/sos",
+                    "https://hackathon-htn2.onrender.com/api/sos",
                     {
                         method: "POST",
 
