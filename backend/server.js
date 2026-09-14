@@ -44,7 +44,22 @@ app.get("/api/reports", async (req, res) => {
 
     res.json(data);
 });
+// Get all SOS alerts
+app.get("/api/sos", async (req, res) => {
 
+    const { data, error } = await supabase
+        .from("sos_alerts")
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        return res.status(500).json({
+            error: error.message
+        });
+    }
+
+    res.json(data);
+});
 // Add a disaster report
 app.post("/api/reports", async (req, res) => {
 
