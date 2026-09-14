@@ -388,21 +388,29 @@
 
             item.innerHTML = `
 
-                <strong>🚨 SOS ID: ${sos.id}</strong>
+    <strong>🚨 SOS ID: ${sos.id}</strong>
 
-                <span class="active-status">
-                    ${sos.status || "ACTIVE"}
-                </span>
+    <span class="active-status">
+        ${sos.status || "ACTIVE"}
+    </span>
 
-                <p>
-                    Latitude: ${sos.latitude}
-                </p>
+    <p>
+        Latitude: ${sos.latitude}
+    </p>
 
-                <p>
-                    Longitude: ${sos.longitude}
-                </p>
+    <p>
+        Longitude: ${sos.longitude}
+    </p>
 
-            `;
+    ${
+        sos.status === "ACTIVE"
+        ? `<button onclick="dispatchRescue(${sos.id}, event)">
+            🚑 Dispatch Rescue
+           </button>`
+        : `<p>✅ Rescue team dispatched</p>`
+    }
+
+`;
 
 
             item.onclick = function () {
