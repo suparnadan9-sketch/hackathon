@@ -4,7 +4,7 @@ const map = L.map("map").setView([22.5726, 88.3639], 10);
 
 // Add OpenStreetMap
 L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
         attribution: "&copy; OpenStreetMap contributors"
     }
