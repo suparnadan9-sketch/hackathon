@@ -4,10 +4,9 @@ const map = L.map("map").setView([22.5726, 88.3639], 10);
 
 // Add OpenStreetMap
 L.tileLayer(
-    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        referrerPolicy: "strict-origin-when-cross-origin"
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
     }
 ).addTo(map);
 
