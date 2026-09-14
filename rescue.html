@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Bhorosha - Rescue Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Leaflet Map -->
+<link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+    .rescue-page {
+        padding: 40px 6%;
+    }
+
+    .rescue-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .rescue-title h1 {
+        margin-bottom: 10px;
+    }
+
+    .rescue-title p {
+        opacity: 0.8;
+    }
+
+    .rescue-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .rescue-stat {
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .rescue-stat h2 {
+        font-size: 32px;
+        margin: 10px 0;
+    }
+
+    .rescue-content {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 25px;
+    }
+
+    .sos-list {
+        padding: 25px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .sos-list h2 {
+        margin-bottom: 20px;
+    }
+
+    .sos-item {
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+    }
+
+    .sos-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .sos-item strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .active-status {
+        color: #ff4444;
+        font-weight: bold;
+    }
+
+    #rescue-map {
+        min-height: 500px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .filter-buttons button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 800px) {
+
+        .rescue-stats,
+        .rescue-content {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- Navigation -->
+<header>
+    <div class="logo">BHOROSHA</div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="report.html">Report</a>
+        <a href="rescue.html">Rescue</a>
+    </nav>
+</header>
+
+
+<main class="rescue-page">
+
+    <div class="rescue-title">
+
+        <h1>🚨 Rescue Dashboard</h1>
+
+        <p>
+            Monitor emergency SOS requests and coordinate rescue operations.
+        </p>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <section class="rescue-stats">
+
+        <div class="rescue-stat">
+
+            <span>🚨</span>
+
+            <h2 id="total-sos">0</h2>
+
+            <p>Total SOS</p>
+
+        </div>
+
+
+        <div class="rescue-stat">
+
+            <span>🔴</span>
+
+            <h2 id="active-sos">0</h2>
+
+            <p>Active SOS</p>
+
+        </div>
+
+
+        <div class="rescue-stat">
+
+            <span>🚑</span>
+
+            <h2 id="dispatched-sos">0</h2>
+
+            <p>Rescue Dispatched</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Filters -->
+
+    <div class="filter-buttons">
+
+        <button onclick="showSOS('ALL')">
+            All
+        </button>
+
+        <button onclick="showSOS('ACTIVE')">
+            ACTIVE
+        </button>
+
+        <button onclick="showSOS('RESCUE DISPATCHED')">
+            RESCUE DISPATCHED
+        </button>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <section class="rescue-content">
+
+
+        <!-- SOS List -->
+
+        <div class="sos-list">
+
+            <h2>Emergency Requests</h2>
+
+            <div id="sos-container">
+
+                <p>Loading SOS requests...</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Map -->
+
+        <div id="rescue-map"></div>
+
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Bhorosha | Disaster Management & Emergency Response
+    </p>
+
+</footer>
+
+
+<!-- Leaflet -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+
+    /*
+     * IMPORTANT:
+     * Replace this URL with the SAME SOS API URL
+     * that your working index.html / script.js uses.
+     */
+
+    const API_URL = "PASTE_YOUR_SOS_API_URL_HERE";
+
+
+    let allSOS = [];
+
+    let currentFilter = "ALL";
+
+
+    // Initialize map
+
+    const map = L.map("rescue-map").setView(
+        [22.5726, 88.3639],
+        12
+    );
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
+
+
+    let markers = [];
+
+
+    // Load SOS data
+
+    async function loadSOS() {
+
+        try {
+
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch SOS data");
+            }
+
+            allSOS = await response.json();
+
+            updateStatistics();
+
+            displaySOS();
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("sos-container").innerHTML =
+                "<p>Unable to load SOS requests.</p>";
+
+        }
+
+    }
+
+
+    // Update statistics
+
+    function updateStatistics() {
+
+        const total = allSOS.length;
+
+        const active = allSOS.filter(
+            sos => sos.status === "ACTIVE"
+        ).length;
+
+        const dispatched = allSOS.filter(
+            sos => sos.status === "RESCUE DISPATCHED"
+        ).length;
+
+
+        document.getElementById("total-sos").textContent = total;
+
+        document.getElementById("active-sos").textContent = active;
+
+        document.getElementById("dispatched-sos").textContent = dispatched;
+
+    }
+
+
+    // Display SOS
+
+    function displaySOS() {
+
+        const container =
+            document.getElementById("sos-container");
+
+
+        container.innerHTML = "";
+
+
+        let filteredSOS = allSOS;
+
+
+        if (currentFilter !== "ALL") {
+
+            filteredSOS = allSOS.filter(
+                sos => sos.status === currentFilter
+            );
+
+        }
+
+
+        if (filteredSOS.length === 0) {
+
+            container.innerHTML =
+                "<p>No SOS requests found.</p>";
+
+            clearMarkers();
+
+            return;
+
+        }
+
+
+        clearMarkers();
+
+
+        filteredSOS.forEach(sos => {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "sos-item";
+
+
+            item.innerHTML = `
+
+                <strong>🚨 SOS ID: ${sos.id}</strong>
+
+                <span class="active-status">
+                    ${sos.status || "ACTIVE"}
+                </span>
+
+                <p>
+                    Latitude: ${sos.latitude}
+                </p>
+
+                <p>
+                    Longitude: ${sos.longitude}
+                </p>
+
+            `;
+
+
+            item.onclick = function () {
+
+                focusSOS(sos);
+
+            };
+
+
+            container.appendChild(item);
+
+
+            // Add marker
+
+            if (
+                sos.latitude !== undefined &&
+                sos.longitude !== undefined
+            ) {
+
+                const marker = L.marker([
+                    Number(sos.latitude),
+                    Number(sos.longitude)
+                ]).addTo(map);
+
+
+                marker.bindPopup(`
+
+                    <b>🚨 SOS ID: ${sos.id}</b><br>
+
+                    Status:
+                    ${sos.status || "ACTIVE"}<br>
+
+                    Latitude:
+                    ${sos.latitude}<br>
+
+                    Longitude:
+                    ${sos.longitude}
+
+                `);
+
+
+                markers.push(marker);
+
+            }
+
+        });
+
+    }
+
+
+    // Focus selected SOS
+
+    function focusSOS(sos) {
+
+        const lat = Number(sos.latitude);
+
+        const lng = Number(sos.longitude);
+
+
+        if (isNaN(lat) || isNaN(lng)) {
+            return;
+        }
+
+
+        map.setView(
+            [lat, lng],
+            16
+        );
+
+
+        markers.forEach(marker => {
+
+            const position =
+                marker.getLatLng();
+
+            if (
+                position.lat === lat &&
+                position.lng === lng
+            ) {
+
+                marker.openPopup();
+
+            }
+
+        });
+
+    }
+
+
+    // Clear map markers
+
+    function clearMarkers() {
+
+        markers.forEach(marker => {
+
+            map.removeLayer(marker);
+
+        });
+
+        markers = [];
+
+    }
+
+
+    // Filter
+
+    function showSOS(filter) {
+
+        currentFilter = filter;
+
+        displaySOS();
+
+    }
+
+
+    // Automatic refresh
+
+    loadSOS();
+
+
+    setInterval(
+        loadSOS,
+        10000
+    );
+
+</script>
+```
+
+</body>
+
+</html>
