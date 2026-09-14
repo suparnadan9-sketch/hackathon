@@ -4,12 +4,11 @@ const map = L.map("map").setView([22.5726, 88.3639], 10);
 
 // Add OpenStreetMap
 L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
     {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+        attribution: '&copy; OpenStreetMap contributors'
     }
 ).addTo(map);
-
 
 // Get disaster reports
 async function loadReports() {
