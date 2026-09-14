@@ -1,46 +1,84 @@
-function activateSOS() {
+async function activateSOS() {
 
     const popup = document.getElementById("sos-message");
+    const locationStatus = document.getElementById("location-status");
 
     popup.classList.remove("hidden");
 
-    const locationStatus = document.getElementById("location-status");
+    locationStatus.innerHTML = "Getting your location...";
 
-    if (navigator.geolocation) {
-
-        navigator.geolocation.getCurrentPosition(
-
-            function(position) {
-
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-
-                locationStatus.innerHTML =
-                    "Location detected.<br>" +
-                    "Latitude: " + latitude.toFixed(5) +
-                    "<br>Longitude: " + longitude.toFixed(5);
-
-            },
-
-            function() {
-
-                locationStatus.innerHTML =
-                    "Unable to access your location.";
-
-            }
-
-        );
-
-    } else {
+    if (!navigator.geolocation) {
 
         locationStatus.innerHTML =
             "Geolocation is not supported by this browser.";
 
+        return;
     }
-}
 
+    navigator.geolocation.getCurrentPosition(
 
-function closeSOS() {
+        async function(position) {
+
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            locationStatus.innerHTML =
+                "Location detected.<br>" +
+                "Sending SOS...";
+
+            try {
+
+                const response = await fetch(
+                    "YOUR_ACTUAL_RENDER_URL/api/sos",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            latitude: latitude,
+                            longitude: longitude
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    locationStatus.innerHTML =
+                        "🚨 SOS ACTIVATED SUCCESSFULLY!<br>" +
+                        "SOS ID: " + data.sos.id +
+                        "<br>Location sent to the response system.";
+
+                } else {
+
+                    locationStatus.innerHTML =
+                        "❌ SOS failed: " + data.error;
+
+                }
+
+            } catch (error) {
+
+                locationStatus.innerHTML =
+                    "❌ Unable to connect to the Bhorosha server.";
+
+                console.error(error);
+            }
+
+        },
+
+        function() {
+
+            locationStatus.innerHTML =
+                "❌ Unable to access your location.";
+
+        }
+
+    );
+}function closeSOS() {
 
     document.getElementById("sos-message")
         .classList.add("hidden");
