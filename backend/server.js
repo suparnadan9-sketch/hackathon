@@ -81,6 +81,35 @@ app.post("/api/reports", async (req, res) => {
         report: data[0]
     });
 });
+app.post("/api/sos", async (req, res) => {
+
+    const {
+        latitude,
+        longitude
+    } = req.body;
+
+    const { data, error } = await supabase
+        .from("sos_alerts")
+        .insert([
+            {
+                latitude,
+                longitude,
+                status: "ACTIVE"
+            }
+        ])
+        .select();
+
+    if (error) {
+        return res.status(500).json({
+            error: error.message
+        });
+    }
+
+    res.status(201).json({
+        message: "SOS alert activated successfully",
+        sos: data[0]
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Bhorosha server running on port ${PORT}`);
