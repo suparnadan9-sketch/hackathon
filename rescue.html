@@ -524,6 +524,40 @@
         displaySOS();
 
     }
+    async function dispatchRescue(id, event) {
+
+    event.stopPropagation();
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/${id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Failed to dispatch rescue");
+        }
+
+        alert(`🚑 Rescue dispatched successfully for SOS ID: ${id}`);
+
+        // Reload latest SOS data
+        loadSOS();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to dispatch rescue.");
+    }
+}
 
 
     // Automatic refresh
