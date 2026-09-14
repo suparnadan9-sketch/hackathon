@@ -125,6 +125,36 @@ app.post("/api/sos", async (req, res) => {
         sos: data[0]
     });
 });
+// Dispatch rescue for an SOS
+app.patch("/api/sos/:id", async (req, res) => {
+
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+        .from("sos_alerts")
+        .update({
+            status: "RESCUE DISPATCHED"
+        })
+        .eq("id", id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({
+            error: error.message
+        });
+    }
+
+    if (!data || data.length === 0) {
+        return res.status(404).json({
+            error: "SOS not found"
+        });
+    }
+
+    res.json({
+        message: "Rescue dispatched successfully",
+        sos: data[0]
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Bhorosha server running on port ${PORT}`);
